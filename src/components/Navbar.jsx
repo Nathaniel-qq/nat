@@ -12,7 +12,8 @@ import {
   Menu, 
   X,
   ChevronDown,
-  Sparkles
+  Sparkles,
+  Download
 } from 'lucide-react';
 import { coursesData } from '../data/coursesData';
 
@@ -27,6 +28,7 @@ export default function Navbar({
   setDarkMode
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const navLinks = [
     { id: 'dashboard', label: 'All Courses', icon: LayoutGrid },
@@ -35,7 +37,32 @@ export default function Navbar({
     { id: 'quizzes', label: 'Practice Quizzes', icon: Award }
   ];
 
-  const selectedCourse = coursesData.find((c) => c.id === selectedCourseId) || coursesData[0];
+  const handleDownloadOfflineFile = () => {
+    try {
+      const link = document.createElement('a');
+      link.href = '/unistudy-exam-master.html';
+      link.download = 'UniStudy-ExamMaster-Offline.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setDownloadSuccess(true);
+      setTimeout(() => setDownloadSuccess(false), 2500);
+    } catch {
+      // Fallback
+      const htmlContent = '<!doctype html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'UniStudy-ExamMaster-Offline.html';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      setDownloadSuccess(true);
+      setTimeout(() => setDownloadSuccess(false), 2500);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
@@ -91,9 +118,9 @@ export default function Navbar({
           })}
         </nav>
 
-        {/* Right Tools: Quick Course Dropdown, Search, Formula Sheet, Dark Mode */}
+        {/* Right Tools: Course Dropdown, Search, Formulas, Download, Dark Mode */}
         <div className="flex items-center gap-2">
-          {/* Active Course Selector (Compact on desktop) */}
+          {/* Active Course Selector (Desktop) */}
           <div className="hidden lg:flex items-center">
             <select
               value={selectedCourseId}
@@ -132,6 +159,20 @@ export default function Navbar({
           >
             <FileSpreadsheet className="w-4 h-4" />
             <span className="hidden sm:inline">Formulas</span>
+          </button>
+
+          {/* Download Offline App Button */}
+          <button
+            onClick={handleDownloadOfflineFile}
+            className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all border ${
+              downloadSuccess
+                ? 'bg-emerald-600 text-white border-emerald-500'
+                : 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border-emerald-200 dark:border-emerald-800'
+            }`}
+            title="Download Standalone Offline File (.html)"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">{downloadSuccess ? 'Downloaded!' : 'Download App'}</span>
           </button>
 
           {/* Dark / Light Toggle */}
@@ -186,6 +227,17 @@ export default function Navbar({
               );
             })}
           </div>
+
+          <button
+            onClick={() => {
+              handleDownloadOfflineFile();
+              setMobileMenuOpen(false);
+            }}
+            className="w-full flex items-center justify-center gap-2 p-3 rounded-xl text-xs font-bold bg-emerald-600 text-white shadow-sm"
+          >
+            <Download className="w-4 h-4" />
+            <span>Download Offline App (.html)</span>
+          </button>
 
           <div className="pt-2 border-t border-slate-200 dark:border-slate-800">
             <label className="text-[11px] font-bold text-slate-400 block mb-1">
