@@ -7,6 +7,7 @@ import PracticeQuiz from './components/PracticeQuiz';
 import FormulaSheetModal from './components/FormulaSheetModal';
 import SearchModal from './components/SearchModal';
 import DownloadModal from './components/DownloadModal';
+import AIStudyPanel from './components/AIStudyPanel';
 import { coursesData } from './data/coursesData';
 import {
   BookOpen,
@@ -22,7 +23,8 @@ import {
   TrendingUp,
   Layers,
   HelpCircle,
-  Download
+  Download,
+  Brain,
 } from 'lucide-react';
 
 export default function App() {
@@ -85,6 +87,7 @@ export default function App() {
   };
 
   const selectedCourse = coursesData.find((c) => c.id === selectedCourseId) || coursesData[0];
+  const selectedCourseLabel = selectedCourse?.title || 'General Study';
 
   const categories = [
     'all',
@@ -95,7 +98,7 @@ export default function App() {
     'Software Development',
     'Languages & Humanities',
     'Communication & Writing',
-    'Theoretical Computer Science'
+    'Theoretical Computer Science',
   ];
 
   const filteredCourses = filterCategory === 'all'
@@ -105,7 +108,7 @@ export default function App() {
   const totalUnits = coursesData.reduce((acc, c) => acc + c.units.length, 0);
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_20%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.18),_transparent_22%),linear-gradient(180deg,#f5f9ff_0%,#edf5ff_36%,#f8fafc_100%)] dark:bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_transparent_20%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.20),_transparent_22%),linear-gradient(180deg,#020817_0%,#0f172a_42%,#020817_100%)] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors selection:bg-sky-500 selection:text-white">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.18),_transparent_20%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.18),_transparent_22%),linear-gradient(180deg,_#f8fafc_0%,_#eef6ff_100%)] dark:bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.9),_transparent_20%),radial-gradient(circle_at_bottom_right,_rgba(6,78,59,0.32),_transparent_22%),linear-gradient(180deg,_#020617_0%,_#0f172a_100%)] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors selection:bg-emerald-500 selection:text-white">
       <Navbar
         currentView={currentView}
         setCurrentView={setCurrentView}
@@ -122,14 +125,14 @@ export default function App() {
         {currentView === 'dashboard' && (
           <div className="space-y-8 animate-fadeIn">
             <div className="relative overflow-hidden rounded-[32px] glass-lg p-8 sm:p-12 text-slate-900 dark:text-white shadow-[0_25px_80px_rgba(15,23,42,0.15)]">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.22),transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.18),transparent_35%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.22),transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.18),transparent_30%),linear-gradient(135deg,_rgba(255,255,255,0.78)_0%,_rgba(240,249,255,0.65)_100%)] dark:bg-[radial-gradient(circle_at_top_right,_rgba(14,165,233,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.12),transparent_32%),linear-gradient(135deg,_rgba(15,23,42,0.92)_0%,_rgba(15,23,42,0.85)_100%)]" />
               <div className="absolute -right-10 top-8 h-40 w-40 rounded-full bg-sky-400/15 blur-3xl" />
               <div className="absolute -left-10 bottom-8 h-44 w-44 rounded-full bg-emerald-400/10 blur-3xl" />
 
               <div className="relative z-10 max-w-3xl space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-sm text-xs font-semibold text-sky-700 dark:text-sky-200 border border-sky-200/80 dark:border-sky-400/20">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-sm text-xs font-semibold text-sky-700 dark:text-sky-200 border border-sky-200/80 dark:border-sky-400/20 bg-white/60 dark:bg-slate-900/40 backdrop-blur-xl">
                   <Sparkles className="w-3.5 h-3.5 text-sky-500" />
-                  Ghana University Exam Edition & fluent glass experience
+                  Ghana University Exam Edition & offline-first AI study flow
                 </div>
 
                 <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight text-slate-900 dark:text-white">
@@ -137,13 +140,16 @@ export default function App() {
                 </h1>
 
                 <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
-                  Comprehensive chapter summaries, Floyd-style digital electronics notes, step-by-step visual guides, and Ghana university practice exam questions—designed in a refined Microsoft and iOS-inspired surface language.
+                  Comprehensive chapter summaries, Floyd-style digital electronics notes, step-by-step visual guides, and personalized offline study insight generated from your own notes and revision sessions.
                 </p>
 
                 <div className="flex flex-wrap items-center gap-3 pt-3">
                   <button
-                    onClick={() => { setSelectedCourseId('csns141'); setCurrentView('summaries'); }}
-                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white shadow-[0_12px_28px_rgba(14,165,233,0.32)] transition-all"
+                    onClick={() => {
+                      setSelectedCourseId('csns141');
+                      setCurrentView('summaries');
+                    }}
+                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white shadow-lg shadow-sky-500/20 transition-all"
                   >
                     <BookOpen className="w-4 h-4" />
                     <span>Start Revision (CSNS 141)</span>
@@ -185,6 +191,10 @@ export default function App() {
                   <span className="text-xs text-slate-600 dark:text-slate-300 block font-medium mt-1">Exam Practice MCQs</span>
                 </div>
               </div>
+            </div>
+
+            <div className="space-y-4">
+              <AIStudyPanel selectedCourse={selectedCourseLabel} />
             </div>
 
             <div className="space-y-4">
