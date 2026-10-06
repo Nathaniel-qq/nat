@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, X, BookOpen, ArrowRight, CornerDownLeft } from 'lucide-react';
+import { Search, X, BookOpen, ArrowRight } from 'lucide-react';
 import { coursesData } from '../data/coursesData';
 
 export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
@@ -7,13 +7,11 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
 
   if (!isOpen) return null;
 
-  // Search logic across courses, units, and sections
   const results = [];
   if (searchTerm.trim().length >= 2) {
     const q = searchTerm.toLowerCase();
 
     coursesData.forEach((course) => {
-      // Check course title or code
       if (course.code.toLowerCase().includes(q) || course.title.toLowerCase().includes(q)) {
         results.push({
           type: 'course',
@@ -25,7 +23,6 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
         });
       }
 
-      // Check units and sections
       course.units.forEach((unit, unitIdx) => {
         if (unit.title.toLowerCase().includes(q) || unit.summary.toLowerCase().includes(q)) {
           results.push({
@@ -40,7 +37,6 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
 
         unit.sections.forEach((sec) => {
           if (sec.title.toLowerCase().includes(q) || sec.content.toLowerCase().includes(q)) {
-            // Find snippet around match
             const lowerContent = sec.content.toLowerCase();
             const matchIndex = lowerContent.indexOf(q);
             const start = Math.max(0, matchIndex - 40);
@@ -67,11 +63,12 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
-      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[75vh]">
-        {/* Search Input */}
-        <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-3">
-          <Search className="w-5 h-5 text-slate-400 shrink-0 ml-2" />
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-slate-950/70 backdrop-blur-lg animate-fadeIn">
+      <div className="glass-lg rounded-[32px] w-full max-w-2xl shadow-[0_28px_80px_rgba(15,23,42,0.35)] overflow-hidden flex flex-col max-h-[75vh] border border-white/20 dark:border-white/10">
+        <div className="p-4 border-b border-slate-200/80 dark:border-white/10 flex items-center gap-3">
+          <div className="p-2.5 rounded-2xl bg-sky-100 dark:bg-sky-950/40 text-sky-600 dark:text-sky-300 border border-sky-200/70 dark:border-sky-800/50">
+            <Search className="w-5 h-5 shrink-0" />
+          </div>
           <input
             autoFocus
             type="text"
@@ -90,18 +87,17 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
           )}
           <button
             onClick={onClose}
-            className="p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500"
+            className="p-1.5 rounded-xl hover:bg-slate-100/80 dark:hover:bg-slate-800/80 text-slate-500"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Results List */}
         <div className="p-4 overflow-y-auto space-y-2 flex-1">
           {searchTerm.trim().length < 2 ? (
             <div className="text-center py-10 space-y-2">
               <BookOpen className="w-8 h-8 text-slate-300 dark:text-slate-700 mx-auto" />
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Type at least 2 characters to search across all 9 university courses.
               </p>
               <div className="flex flex-wrap justify-center gap-1.5 pt-2">
@@ -109,7 +105,7 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
                   <button
                     key={tag}
                     onClick={() => setSearchTerm(tag)}
-                    className="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                    className="text-[11px] px-2.5 py-1 rounded-lg bg-white/50 dark:bg-slate-900/50 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/70 dark:border-slate-700/70"
                   >
                     {tag}
                   </button>
@@ -117,7 +113,7 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
               </div>
             </div>
           ) : results.length === 0 ? (
-            <div className="text-center py-10 text-xs text-slate-500">
+            <div className="text-center py-10 text-xs text-slate-500 dark:text-slate-400">
               No course notes found matching "<span className="font-semibold text-slate-700 dark:text-slate-300">{searchTerm}</span>".
             </div>
           ) : (
@@ -125,32 +121,32 @@ export default function SearchModal({ isOpen, onClose, onSelectCourseUnit }) {
               <div
                 key={idx}
                 onClick={() => handleSelect(item)}
-                className="p-3.5 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/60 border border-slate-100 dark:border-slate-800/80 cursor-pointer transition-all flex items-start justify-between gap-3 group"
+                className="group p-3.5 rounded-2xl hover:bg-white/50 dark:hover:bg-slate-800/50 border border-slate-200/60 dark:border-slate-800/80 cursor-pointer transition-all flex items-start justify-between gap-3 bg-white/30 dark:bg-slate-900/20"
               >
                 <div className="space-y-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 font-bold">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300 font-bold">
                       {item.badge}
                     </span>
                     <h4 className="text-xs font-bold text-slate-900 dark:text-white truncate">
                       {item.title}
                     </h4>
                   </div>
-                  <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-sans">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed font-sans">
                     {item.snippet}
                   </p>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-indigo-500 shrink-0 mt-1 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-sky-500 shrink-0 mt-1 transition-transform group-hover:translate-x-0.5" />
               </div>
             ))
           )}
         </div>
 
-        {/* Footer Shortcut Indicator */}
-        <div className="p-3 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-right text-[11px] text-slate-400">
+        <div className="p-3 border-t border-slate-200/80 dark:border-white/10 bg-white/25 dark:bg-slate-900/30 text-right text-[11px] text-slate-400 dark:text-slate-500">
           Found {results.length} result{results.length === 1 ? '' : 's'} across 9 courses
         </div>
       </div>
     </div>
   );
 }
+
