@@ -8,13 +8,13 @@ import FormulaSheetModal from './components/FormulaSheetModal';
 import SearchModal from './components/SearchModal';
 import DownloadModal from './components/DownloadModal';
 import { coursesData } from './data/coursesData';
-import { 
-  BookOpen, 
-  Cpu, 
-  Award, 
-  Sparkles, 
-  Flame, 
-  FileSpreadsheet, 
+import {
+  BookOpen,
+  Cpu,
+  Award,
+  Sparkles,
+  Flame,
+  FileSpreadsheet,
   Search,
   CheckCircle2,
   GraduationCap,
@@ -26,14 +26,13 @@ import {
 } from 'lucide-react';
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' | 'summaries' | 'visuals' | 'quizzes'
+  const [currentView, setCurrentView] = useState('dashboard');
   const [selectedCourseId, setSelectedCourseId] = useState('csns141');
   const [isFormulaModalOpen, setIsFormulaModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [filterCategory, setFilterCategory] = useState('all');
 
-  // Dark mode setup
   const [darkMode, setDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem('theme_dark');
@@ -56,7 +55,6 @@ export default function App() {
     }
   }, [darkMode]);
 
-  // Global keyboard shortcut for search (Cmd+K / Ctrl+K)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -88,16 +86,15 @@ export default function App() {
 
   const selectedCourse = coursesData.find((c) => c.id === selectedCourseId) || coursesData[0];
 
-  // Categories for dashboard filtering
   const categories = [
-    'all', 
-    'Hardware & Systems', 
-    'Pure & Applied Mathematics', 
-    'Physical Sciences', 
-    'Foundations of Computing', 
-    'Software Development', 
-    'Languages & Humanities', 
-    'Communication & Writing', 
+    'all',
+    'Hardware & Systems',
+    'Pure & Applied Mathematics',
+    'Physical Sciences',
+    'Foundations of Computing',
+    'Software Development',
+    'Languages & Humanities',
+    'Communication & Writing',
     'Theoretical Computer Science'
   ];
 
@@ -105,12 +102,10 @@ export default function App() {
     ? coursesData
     : coursesData.filter((c) => c.category === filterCategory);
 
-  // Global stats calculation
   const totalUnits = coursesData.reduce((acc, c) => acc + c.units.length, 0);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors selection:bg-emerald-500 selection:text-white">
-      {/* Top Navigation */}
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(96,165,250,0.18),_transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.18),_transparent_28%),linear-gradient(180deg,#f8fbff_0%,#eef4ff_42%,#f8fafc_100%)] dark:bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.20),_transparent_25%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.20),_transparent_28%),linear-gradient(180deg,#020817_0%,#0f172a_40%,#020817_100%)] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors selection:bg-sky-500 selection:text-white">
       <Navbar
         currentView={currentView}
         setCurrentView={setCurrentView}
@@ -123,34 +118,32 @@ export default function App() {
         setDarkMode={setDarkMode}
       />
 
-      {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* VIEW 1: DASHBOARD (ALL COURSES) */}
         {currentView === 'dashboard' && (
           <div className="space-y-8 animate-fadeIn">
-            {/* Hero Header */}
-            <div className="relative rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-8 sm:p-12 text-white border border-slate-800 shadow-2xl overflow-hidden">
-              <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-emerald-500/20 via-teal-500/10 to-transparent pointer-events-none" />
-              
+            <div className="relative overflow-hidden rounded-[32px] glass-lg p-8 sm:p-12 text-slate-900 dark:text-white shadow-[0_25px_70px_rgba(15,23,42,0.14)]">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(14,165,233,0.22),transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.18),transparent_35%)]" />
+              <div className="absolute -right-10 top-8 h-40 w-40 rounded-full bg-sky-400/15 blur-3xl" />
+              <div className="absolute -left-10 bottom-8 h-44 w-44 rounded-full bg-emerald-400/10 blur-3xl" />
+
               <div className="relative z-10 max-w-3xl space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-semibold backdrop-blur-sm">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-                  Ghana University Exam Edition & Floyd Style Architecture
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-sm text-xs font-semibold text-sky-700 dark:text-sky-200 border border-sky-300/50 dark:border-sky-400/20">
+                  <Sparkles className="w-3.5 h-3.5 text-sky-500" />
+                  Ghana University Exam Edition & Apple-inspired study flow
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight text-slate-900 dark:text-white">
                   Master Computer Science & Engineering Exams
                 </h1>
 
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
-                  Comprehensive chapter summaries, Floyd-style digital electronics notes, step-by-step matrix & circuit visualizers, and Ghana university practice exam questions.
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl">
+                  Comprehensive chapter summaries, Floyd-style digital electronics notes, step-by-step visual guides, and Ghana university practice exam questions—crafted in a clean system-inspired interface.
                 </p>
 
-                {/* Quick Action CTA Buttons */}
                 <div className="flex flex-wrap items-center gap-3 pt-3">
                   <button
                     onClick={() => { setSelectedCourseId('csns141'); setCurrentView('summaries'); }}
-                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition-all shadow-lg shadow-emerald-500/25"
+                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-400 hover:to-cyan-400 text-white shadow-lg shadow-sky-500/30 transition-all"
                   >
                     <BookOpen className="w-4 h-4" />
                     <span>Start Revision (CSNS 141)</span>
@@ -158,44 +151,42 @@ export default function App() {
 
                   <button
                     onClick={() => setCurrentView('visuals')}
-                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-sm border border-white/10"
+                    className="glass-button flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-100"
                   >
-                    <Cpu className="w-4 h-4 text-emerald-400" />
+                    <Cpu className="w-4 h-4 text-emerald-500" />
                     <span>Open Visuals Lab</span>
                   </button>
 
                   <button
                     onClick={() => setIsDownloadModalOpen(true)}
-                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 transition-all border border-emerald-400/40"
+                    className="glass-button flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold text-slate-700 dark:text-slate-100"
                   >
-                    <Download className="w-4 h-4 text-emerald-400" />
+                    <Download className="w-4 h-4 text-violet-500" />
                     <span>Download App (.html / .zip)</span>
                   </button>
                 </div>
               </div>
 
-              {/* Stats Bar */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-8 border-t border-white/10">
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black font-mono text-emerald-400">9</span>
-                  <span className="text-xs text-slate-300 block font-medium">Accredited Courses</span>
+              <div className="relative z-10 grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-8 border-t border-slate-200/80 dark:border-white/10">
+                <div className="glass-sm rounded-2xl p-4">
+                  <span className="text-2xl sm:text-3xl font-black font-mono text-sky-600 dark:text-sky-400">9</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-300 block font-medium mt-1">Accredited Courses</span>
                 </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black font-mono text-indigo-400">{totalUnits}</span>
-                  <span className="text-xs text-slate-300 block font-medium">Chapter Summaries</span>
+                <div className="glass-sm rounded-2xl p-4">
+                  <span className="text-2xl sm:text-3xl font-black font-mono text-violet-600 dark:text-violet-400">{totalUnits}</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-300 block font-medium mt-1">Chapter Summaries</span>
                 </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black font-mono text-amber-400">7</span>
-                  <span className="text-xs text-slate-300 block font-medium">Interactive Visualizers</span>
+                <div className="glass-sm rounded-2xl p-4">
+                  <span className="text-2xl sm:text-3xl font-black font-mono text-emerald-600 dark:text-emerald-400">7</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-300 block font-medium mt-1">Interactive Visualizers</span>
                 </div>
-                <div>
-                  <span className="text-2xl sm:text-3xl font-black font-mono text-sky-400">35+</span>
-                  <span className="text-xs text-slate-300 block font-medium">Exam Practice MCQs</span>
+                <div className="glass-sm rounded-2xl p-4">
+                  <span className="text-2xl sm:text-3xl font-black font-mono text-amber-600 dark:text-amber-400">35+</span>
+                  <span className="text-xs text-slate-600 dark:text-slate-300 block font-medium mt-1">Exam Practice MCQs</span>
                 </div>
               </div>
             </div>
 
-            {/* Course Filter Tabs */}
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -210,7 +201,7 @@ export default function App() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setIsDownloadModalOpen(true)}
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold glass-button text-sky-700 dark:text-sky-300"
                   >
                     <Download className="w-4 h-4" />
                     <span>Download Files</span>
@@ -218,7 +209,7 @@ export default function App() {
 
                   <button
                     onClick={() => setIsFormulaModalOpen(true)}
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800"
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold glass-button text-violet-700 dark:text-violet-300"
                   >
                     <FileSpreadsheet className="w-4 h-4" />
                     <span>Formula Sheets</span>
@@ -226,7 +217,6 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Category Pills */}
               <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none">
                 {categories.map((cat) => (
                   <button
@@ -234,8 +224,8 @@ export default function App() {
                     onClick={() => setFilterCategory(cat)}
                     className={`px-3.5 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                       filterCategory === cat
-                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm'
-                        : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
+                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
+                        : 'glass-button text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-800/60 border border-white/30 dark:border-white/10'
                     }`}
                   >
                     {cat === 'all' ? 'All Curricula (9 Courses)' : cat}
@@ -243,7 +233,6 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Course Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredCourses.map((course) => (
                   <CourseCard
@@ -259,7 +248,6 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 2: CHAPTER SUMMARIES (DETAILED NOTES) */}
         {currentView === 'summaries' && (
           <div className="animate-fadeIn">
             <ChapterSummaries
@@ -270,14 +258,12 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 3: VISUALS LAB */}
         {currentView === 'visuals' && (
           <div className="animate-fadeIn">
             <VisualsLab />
           </div>
         )}
 
-        {/* VIEW 4: PRACTICE QUIZZES */}
         {currentView === 'quizzes' && (
           <div className="animate-fadeIn">
             <PracticeQuiz
@@ -288,7 +274,6 @@ export default function App() {
         )}
       </main>
 
-      {/* Global Modals */}
       <FormulaSheetModal
         isOpen={isFormulaModalOpen}
         onClose={() => setIsFormulaModalOpen(false)}
@@ -305,12 +290,11 @@ export default function App() {
         onClose={() => setIsDownloadModalOpen(false)}
       />
 
-      {/* Footer */}
-      <footer className="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <footer className="mt-16 border-t border-slate-200/80 dark:border-white/10 bg-white/60 dark:bg-slate-900/50 backdrop-blur-xl transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
           <div className="flex items-center gap-2">
-            <GraduationCap className="w-4 h-4 text-emerald-500" />
-            <span className="font-bold text-slate-700 dark:text-slate-300">
+            <GraduationCap className="w-4 h-4 text-sky-500" />
+            <span className="font-bold text-slate-700 dark:text-slate-200">
               UniStudy ExamMaster Hub
             </span>
             <span>• Ghana University Examination Edition & Floyd Digital Electronics System</span>
@@ -319,13 +303,13 @@ export default function App() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsDownloadModalOpen(true)}
-              className="hover:text-emerald-500 transition-colors font-bold text-emerald-600 dark:text-emerald-400"
+              className="hover:text-sky-500 transition-colors font-bold text-sky-600 dark:text-sky-400"
             >
               Download Offline App
             </button>
             <button
               onClick={() => setIsFormulaModalOpen(true)}
-              className="hover:text-emerald-500 transition-colors"
+              className="hover:text-violet-500 transition-colors"
             >
               Formula Sheets
             </button>
@@ -337,7 +321,7 @@ export default function App() {
             </button>
             <button
               onClick={() => { setSelectedCourseId('all'); setCurrentView('quizzes'); }}
-              className="hover:text-emerald-500 transition-colors"
+              className="hover:text-amber-500 transition-colors"
             >
               Mock Exams
             </button>
@@ -347,3 +331,4 @@ export default function App() {
     </div>
   );
 }
+
