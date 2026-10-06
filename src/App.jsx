@@ -6,6 +6,7 @@ import VisualsLab from './components/VisualsLab';
 import PracticeQuiz from './components/PracticeQuiz';
 import FormulaSheetModal from './components/FormulaSheetModal';
 import SearchModal from './components/SearchModal';
+import DownloadModal from './components/DownloadModal';
 import { coursesData } from './data/coursesData';
 import { 
   BookOpen, 
@@ -20,7 +21,8 @@ import {
   ArrowRight,
   TrendingUp,
   Layers,
-  HelpCircle
+  HelpCircle,
+  Download
 } from 'lucide-react';
 
 export default function App() {
@@ -28,6 +30,7 @@ export default function App() {
   const [selectedCourseId, setSelectedCourseId] = useState('csns141');
   const [isFormulaModalOpen, setIsFormulaModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const [filterCategory, setFilterCategory] = useState('all');
 
   // Dark mode setup
@@ -86,7 +89,17 @@ export default function App() {
   const selectedCourse = coursesData.find((c) => c.id === selectedCourseId) || coursesData[0];
 
   // Categories for dashboard filtering
-  const categories = ['all', 'Hardware & Systems', 'Pure & Applied Mathematics', 'Physical Sciences', 'Foundations of Computing', 'Software Development', 'Languages & Humanities', 'Communication & Writing', 'Theoretical Computer Science'];
+  const categories = [
+    'all', 
+    'Hardware & Systems', 
+    'Pure & Applied Mathematics', 
+    'Physical Sciences', 
+    'Foundations of Computing', 
+    'Software Development', 
+    'Languages & Humanities', 
+    'Communication & Writing', 
+    'Theoretical Computer Science'
+  ];
 
   const filteredCourses = filterCategory === 'all'
     ? coursesData
@@ -105,6 +118,7 @@ export default function App() {
         setSelectedCourseId={setSelectedCourseId}
         onOpenSearch={() => setIsSearchModalOpen(true)}
         onOpenFormulas={() => setIsFormulaModalOpen(true)}
+        onOpenDownload={() => setIsDownloadModalOpen(true)}
         darkMode={darkMode}
         setDarkMode={setDarkMode}
       />
@@ -151,11 +165,11 @@ export default function App() {
                   </button>
 
                   <button
-                    onClick={() => { setSelectedCourseId('all'); setCurrentView('quizzes'); }}
-                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-indigo-600/60 hover:bg-indigo-600 text-white transition-all border border-indigo-400/30"
+                    onClick={() => setIsDownloadModalOpen(true)}
+                    className="flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 transition-all border border-emerald-400/40"
                   >
-                    <Award className="w-4 h-4 text-amber-300" />
-                    <span>Take Master Mock Exam</span>
+                    <Download className="w-4 h-4 text-emerald-400" />
+                    <span>Download App (.html / .zip)</span>
                   </button>
                 </div>
               </div>
@@ -193,13 +207,23 @@ export default function App() {
                   </p>
                 </div>
 
-                <button
-                  onClick={() => setIsFormulaModalOpen(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl text-xs font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800"
-                >
-                  <FileSpreadsheet className="w-4 h-4" />
-                  <span>View All Formula Sheets</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsDownloadModalOpen(true)}
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span>Download Files</span>
+                  </button>
+
+                  <button
+                    onClick={() => setIsFormulaModalOpen(true)}
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-2xl text-xs font-bold bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800"
+                  >
+                    <FileSpreadsheet className="w-4 h-4" />
+                    <span>Formula Sheets</span>
+                  </button>
+                </div>
               </div>
 
               {/* Category Pills */}
@@ -276,6 +300,11 @@ export default function App() {
         onSelectCourseUnit={handleSelectCourseUnitFromSearch}
       />
 
+      <DownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
+      />
+
       {/* Footer */}
       <footer className="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/60 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
@@ -288,6 +317,12 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-4">
+            <button
+              onClick={() => setIsDownloadModalOpen(true)}
+              className="hover:text-emerald-500 transition-colors font-bold text-emerald-600 dark:text-emerald-400"
+            >
+              Download Offline App
+            </button>
             <button
               onClick={() => setIsFormulaModalOpen(true)}
               className="hover:text-emerald-500 transition-colors"
