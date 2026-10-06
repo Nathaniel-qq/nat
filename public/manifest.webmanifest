@@ -1,0 +1,17 @@
+{
+  "name": "UniStudy ExamMaster Hub",
+  "short_name": "UniStudy",
+  "description": "Offline-first study app with notes, visual tools, quizzes, and AI-powered study insights.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
