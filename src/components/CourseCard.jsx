@@ -9,11 +9,8 @@ import {
   Activity,
   FileText,
   Binary,
-  ArrowRight,
   BookOpen,
-  Award,
-  Flame,
-  CheckCircle2
+  Award
 } from 'lucide-react';
 
 const iconMap = {
@@ -28,12 +25,7 @@ const iconMap = {
   Binary
 };
 
-export default function CourseCard({
-  course,
-  onSelectCourse,
-  onTakeQuiz,
-  onOpenVisuals
-}) {
+export default function CourseCard({ course, onSelectCourse, onTakeQuiz, onOpenVisuals }) {
   const IconComponent = iconMap[course.icon] || BookOpen;
 
   let masteredCount = 0;
@@ -50,7 +42,7 @@ export default function CourseCard({
   const progressPercent = Math.min(100, Math.round((masteredCount / course.units.length) * 100));
 
   return (
-    <div className="glass-card flex flex-col justify-between group hover:-translate-y-1 hover:shadow-[0_20px_45px_rgba(14,165,233,0.12)]">
+    <div className="glass-card flex flex-col justify-between group hover:-translate-y-1 hover:shadow-[0_24px_54px_rgba(14,165,233,0.12)]">
       <div className="space-y-4">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -120,10 +112,9 @@ export default function CourseCard({
           className="px-3 py-2.5 rounded-xl text-xs font-bold bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300 hover:bg-sky-200 dark:hover:bg-sky-900/60 transition-colors"
           title="Interactive Visualizer"
         >
-          <Activity className="w-3.5 h-3.5" />
+          <Cpu className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>
   );
 }
-

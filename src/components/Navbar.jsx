@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { 
-  GraduationCap, 
-  Search, 
-  Moon, 
-  Sun, 
-  BookOpen, 
-  Cpu, 
-  Award, 
-  FileSpreadsheet, 
-  LayoutGrid, 
-  Menu, 
+import {
+  GraduationCap,
+  Search,
+  Moon,
+  Sun,
+  BookOpen,
+  Cpu,
+  Award,
+  FileSpreadsheet,
+  LayoutGrid,
+  Menu,
   X,
-  ChevronDown,
-  Sparkles,
   Download
 } from 'lucide-react';
 import { coursesData } from '../data/coursesData';
@@ -40,11 +38,11 @@ export default function Navbar({
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-white/10 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
-        <div 
+        <div
           onClick={() => { setCurrentView('dashboard'); }}
           className="flex items-center gap-3 cursor-pointer group"
         >
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-sky-500 via-cyan-500 to-emerald-500 flex items-center justify-center text-white shadow-[0_10px_25px_rgba(14,165,233,0.35)] group-hover:scale-[1.03] transition-transform">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500 via-cyan-500 to-emerald-500 flex items-center justify-center text-white shadow-[0_12px_30px_rgba(14,165,233,0.28)] group-hover:scale-[1.03] transition-transform">
             <GraduationCap className="w-6 h-6" />
           </div>
           <div>
@@ -223,4 +221,3 @@ export default function Navbar({
     </header>
   );
 }
-
